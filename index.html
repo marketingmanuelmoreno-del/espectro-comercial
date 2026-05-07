@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espectro Comercial · Manuel Moreno</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'><rect width='44' height='44' rx='10' fill='%23111d2e'/><line x1='9' y1='13' x2='35' y2='13' stroke='%23c9963a' stroke-width='2.5' stroke-linecap='round'/><line x1='13' y1='20' x2='31' y2='20' stroke='%23c9963a' stroke-width='2.5' stroke-linecap='round' opacity='.75'/><line x1='17' y1='27' x2='27' y2='27' stroke='%23c9963a' stroke-width='2.5' stroke-linecap='round' opacity='.5'/><line x1='20' y1='33' x2='24' y2='33' stroke='%23c9963a' stroke-width='2.5' stroke-linecap='round' opacity='.3'/></svg>">
+<meta name="theme-color" content="#111d2e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<script>(function(){if(!localStorage.getItem('ec-v2')){localStorage.setItem('ec-theme','dark');localStorage.setItem('ec-v2','1');}var t=localStorage.getItem('ec-theme')||'dark';document.documentElement.setAttribute('data-theme',t);}());</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4f8;--surface:#fff;--surface2:#f8fafc;--border:#e2e8f0;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --c-mk:#7c3aed;--c-mk-l:#ede9fe;
+  --c-pr:#2563eb;--c-pr-l:#dbeafe;
+  --c-vt:#ea580c;--c-vt-l:#fff1e6;
+  --c-pd:#059669;--c-pd-l:#d1fae5;
+  --c-pf:#d97706;--c-pf-l:#fef3c7;
+  --green:#16a34a;--green-bg:#dcfce7;
+  --yellow:#b45309;--yellow-bg:#fef9c3;
+  --red:#dc2626;--red-bg:#fee2e2;
+  --r:12px;--sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --sidebar:248px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px;line-height:1.6;overflow-x:hidden}
+#sidebar{width:var(--sidebar);min-width:var(--sidebar);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;overflow-y:auto;transition:transform .25s ease}
+.sb-logo{padding:18px 18px 14px;border-bottom:1px solid var(--border)}
+.sb-logo h1{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.sb-logo p{font-size:11px;color:var(--text3);margin-top:2px}
+.sb-back{padding:8px 12px;border-bottom:1px solid var(--border)}
+.sb-back a{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--text3);text-decoration:none;padding:5px 8px;border-radius:7px;transition:all .15s}
+.sb-back a:hover{background:var(--bg);color:var(--text)}
+.sb-completion{padding:10px 18px 12px;border-bottom:1px solid var(--border)}
+.sb-comp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sb-comp-label{font-size:11px;font-weight:600;color:var(--text2)}
+.sb-comp-pct{font-size:13px;font-weight:800;color:var(--text)}
+.sb-comp-track{background:var(--border);border-radius:100px;height:6px;overflow:hidden}
+.sb-comp-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,#c9a96e,#4caf82,#c9963a);transition:width .6s ease}
+.sb-comp-subs{display:flex;gap:8px;margin-top:6px}
+.sb-comp-sub{font-size:10px;color:var(--text3);display:flex;align-items:center;gap:3px}
+.sb-comp-dot{width:5px;height:5px;border-radius:50%}
+.sb-sec{padding:12px 12px 4px}
+.sb-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all .15s;color:var(--text2);font-weight:500;font-size:13px;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{background:var(--bg);color:var(--text);font-weight:600}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.nav-health{margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--text3)}
+.h-green{background:var(--green)!important}
+.h-yellow{background:#fbbf24!important}
+.h-red{background:var(--red)!important}
+.sb-bottom{margin-top:auto;padding:10px 12px 16px;border-top:1px solid var(--border)}
+.sb-bottom .nav-item{color:var(--text3);font-size:12px}
+#sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199}
+#main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh;min-width:0}
+.view{display:none}
+.view.active{display:block}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;gap:12px}
+.topbar h2{font-size:16px;font-weight:700;letter-spacing:-.3px;display:flex;align-items:center;gap:8px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.btn{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:inherit}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}
+.btn-ghost:hover{background:var(--bg);color:var(--text)}
+.btn-solid{background:var(--text);color:#fff}
+.btn-solid:hover{opacity:.85}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:6px;color:var(--text2)}
+.hamburger:hover{background:var(--bg)}
+.period-toggle{display:flex;background:var(--bg);border-radius:8px;padding:3px;gap:2px}
+.pt-btn{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--text3);font-family:inherit;transition:all .15s}
+.pt-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.content{padding:24px 28px;max-width:1100px}
+.stage-banner{border-radius:var(--r);padding:20px 26px;margin-bottom:22px;position:relative;overflow:hidden;color:#fff}
+.stage-banner::after{content:attr(data-icon);position:absolute;right:16px;top:-8px;font-size:90px;opacity:.12;pointer-events:none}
+.stage-banner h2{font-size:21px;font-weight:900;letter-spacing:-.5px}
+.stage-banner p{font-size:13px;opacity:.8;margin-top:3px}
+.banner-metrics{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.bm-pill{background:rgba(255,255,255,.18);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:100px;display:flex;align-items:center;gap:5px}
+.bm-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.tab-nav{display:flex;border-bottom:2px solid var(--border);margin-bottom:20px;gap:0;overflow-x:auto}
+.tab-btn{padding:9px 16px;border:none;background:none;font-family:inherit;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;white-space:nowrap}
+.tab-btn:hover{color:var(--text2)}
+.tab-btn.active{color:var(--text);font-weight:600;border-bottom-color:var(--text)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:4px}
+.metric-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.mc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:12px}
+.mc-name{font-size:12px;font-weight:600;color:var(--text2);flex:1;line-height:1.4}
+.hbadge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.mc-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mc-ig label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);display:block;margin-bottom:3px}
+.mc-ig input{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:13px;font-weight:600;color:var(--text);background:var(--surface2)}
+.mc-ig input:focus{outline:none;border-color:#94a3b8;background:#fff}
+.mc-ig input::placeholder{font-weight:400;color:var(--text3)}
+.progress-wrap{margin-top:10px;background:var(--border);border-radius:100px;height:5px;overflow:hidden}
+.progress-bar{height:100%;border-radius:100px;transition:width .4s,background .4s}
+.progress-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:3px}
+.subgroup{display:flex;align-items:center;gap:10px;margin:18px 0 10px}
+.subgroup-line{flex:1;height:1px;background:var(--border)}
+.subgroup-lbl{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text3);white-space:nowrap}
+.process-list{display:flex;flex-direction:column;gap:8px}
+.proc-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.proc-head{display:grid;grid-template-columns:26px 1fr 140px 130px;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:background .15s}
+.proc-head:hover{background:var(--surface2)}
+.proc-num{width:26px;height:26px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.proc-name{font-size:13px;font-weight:600}
+.proc-input{padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px;color:var(--text);background:var(--surface2);width:100%}
+.proc-input:focus{outline:none;border-color:#94a3b8}
+.proc-input::placeholder{color:var(--text3)}
+.proc-select{padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px;background:var(--surface2);width:100%;cursor:pointer;color:var(--text)}
+.proc-select:focus{outline:none;border-color:#94a3b8}
+.proc-body{display:none;padding:12px 14px;border-top:1px solid var(--border);background:var(--surface2)}
+.proc-body.open{display:block}
+.proc-body label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);display:block;margin-bottom:5px}
+.proc-body textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;color:var(--text);background:#fff;resize:vertical;min-height:80px;line-height:1.6}
+.proc-body textarea:focus{outline:none;border-color:#94a3b8}
+.bn-list{display:flex;flex-direction:column;gap:8px}
+.bn-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.bn-head{display:grid;grid-template-columns:1fr 140px;align-items:center;gap:10px;margin-bottom:8px}
+.bn-name{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.bn-select{padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px;background:var(--surface2);width:100%;cursor:pointer}
+.bn-select:focus{outline:none;border-color:#94a3b8}
+.bn-notes{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;color:var(--text);background:var(--surface2);resize:vertical;min-height:64px;line-height:1.5}
+.bn-notes:focus{outline:none;border-color:#94a3b8;background:#fff}
+.bn-notes::placeholder{color:var(--text3)}
+.notes-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.notes-box label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);display:block;margin-bottom:8px}
+.notes-box textarea{width:100%;border:none;font-family:inherit;font-size:14px;color:var(--text);background:transparent;resize:none;min-height:140px;line-height:1.7}
+.notes-box textarea:focus{outline:none}
+.notes-box textarea::placeholder{color:var(--text3)}
+.dash-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden}
+.kpi-lbl{font-size:11px;color:var(--text3);font-weight:500;margin-bottom:6px}
+.kpi-val{font-family:'Lora',serif;font-size:30px;font-weight:600;letter-spacing:-.8px;line-height:1}
+.kpi-sub{font-size:11px;color:var(--text3);margin-top:5px}
+.kpi-cta{font-size:11px;color:var(--c-mk);font-weight:600;margin-top:8px;cursor:pointer;display:inline-flex;align-items:center;gap:3px}
+.kpi-cta:hover{text-decoration:underline}
+.kpi-mini-bar{margin-top:8px;background:var(--border);border-radius:100px;height:4px;overflow:hidden}
+.kpi-mini-fill{height:100%;border-radius:100px;background:var(--green);transition:width .5s}
+.pipeline-flow{display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
+.pf-stage{flex:1;padding:16px 10px;display:flex;flex-direction:column;align-items:center;border-right:1px solid var(--border);cursor:pointer;transition:background .15s;min-width:0}
+.pf-stage:last-child{border-right:none}
+.pf-stage:hover{background:var(--surface2)}
+.pf-icon{font-size:24px;margin-bottom:5px}
+.pf-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;text-align:center}
+.pf-val{font-size:22px;font-weight:800;letter-spacing:-1px;line-height:1}
+.pf-key{font-size:10px;color:var(--text3);margin-top:2px;text-align:center}
+.pf-badge{margin-top:8px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px}
+.pf-arrow{display:flex;align-items:center;color:var(--text3);font-size:14px;padding:0 2px;flex-shrink:0}
+.dash-hint{text-align:center;font-size:11px;color:var(--text3);padding:6px 0 20px}
+.rev-calc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+.rev-calc-head{padding:16px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.rev-calc-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.rev-calc-body{padding:16px 20px}
+.rev-chain{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.rev-node{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:100px}
+.rev-node-val{font-size:20px;font-weight:800;letter-spacing:-1px;line-height:1}
+.rev-node-lbl{font-size:10px;color:var(--text3);margin-top:3px;font-weight:500}
+.rev-node-src{font-size:9px;color:var(--text3);margin-top:2px;text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.rev-node.highlight{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b}
+.rev-node.highlight .rev-node-val{color:#92400e}
+.rev-node.profit{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-color:#4ade80}
+.rev-node.profit .rev-node-val{color:#14532d;font-size:24px}
+.rev-op{font-size:14px;color:var(--text3);font-weight:700;padding:0 4px;align-self:center}
+.rev-rate{font-size:11px;color:var(--text3);background:var(--bg);border:1px dashed var(--border);border-radius:6px;padding:3px 8px;align-self:center;font-weight:600}
+.rev-empty{font-size:13px;color:var(--text3);padding:8px 0;display:flex;align-items:center;gap:8px}
+.onboarding-guide{background:linear-gradient(135deg,#f8fafc,#ede9fe20);border:1px dashed #c4b5fd;border-radius:var(--r);padding:24px;margin-bottom:20px}
+.og-title{font-size:15px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.og-sub{font-size:13px;color:var(--text2);margin-bottom:16px}
+.og-steps{display:flex;flex-direction:column;gap:8px}
+.og-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--surface);border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:all .15s}
+.og-step:hover{border-color:#c4b5fd;background:#faf5ff;transform:translateX(2px)}
+.og-step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0}
+.og-step-info{flex:1}
+.og-step-title{font-size:13px;font-weight:700}
+.og-step-desc{font-size:12px;color:var(--text3);margin-top:2px}
+.og-step-arrow{color:var(--text3);align-self:center;font-size:16px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:20px}
+.sec-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:7px}
+.sec-count{background:var(--bg);color:var(--text2);font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transform:translateY(6px);transition:all .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+#view-tuberia .content{max-width:none;padding:0}
+.tub-scroll{overflow-x:auto;padding:24px 28px 48px}
+.tub-flow{display:flex;align-items:flex-start;gap:0;min-width:max-content}
+.tub-col{width:218px;flex-shrink:0}
+.tub-col-head{padding:14px 16px 12px;border-radius:12px 12px 0 0;color:#fff;position:relative;overflow:hidden;cursor:pointer}
+.tub-col-head::after{content:attr(data-icon);position:absolute;right:6px;top:-6px;font-size:54px;opacity:.15;pointer-events:none}
+.tub-col-tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;opacity:.8}
+.tub-col-name{font-size:15px;font-weight:800;letter-spacing:-.3px;margin-top:2px}
+.tub-col-metric{font-family:'Lora',serif;font-size:22px;font-weight:600;letter-spacing:-.5px;margin-top:8px;line-height:1}
+.tub-col-mlabel{font-size:10px;opacity:.75;margin-top:2px}
+.tub-col-hbadge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;margin-top:8px;background:rgba(255,255,255,.2);color:#fff}
+.tub-col-body{border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;background:var(--surface);padding:8px;display:flex;flex-direction:column;gap:4px}
+.tub-group-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text3);padding:6px 6px 2px;margin-top:4px}
+.tub-group-lbl:first-child{margin-top:0}
+.tub-node{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:7px 9px;cursor:pointer;transition:all .15s;border-left:3px solid transparent}
+.tub-node:hover{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1);transform:translateX(2px)}
+.tub-node-row{display:flex;align-items:flex-start;gap:6px}
+.tub-node-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.tub-node-info{flex:1;min-width:0}
+.tub-node-name{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.35}
+.tub-node-owner{font-size:10px;color:var(--text3);margin-top:2px}
+.tub-connector{width:44px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:52px;gap:0}
+.tub-conn-conv{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:4px 8px;font-size:10px;font-weight:700;color:var(--text2);white-space:nowrap;margin-bottom:6px}
+.tub-conn-line{width:1px;height:24px;background:var(--border)}
+.tub-conn-arrow{color:var(--text3);font-size:14px;line-height:1}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.tub-col-anim{animation:fadeSlideUp .35s ease both}
+#proc-panel{position:fixed;top:0;right:0;bottom:0;width:380px;background:var(--surface);border-left:1px solid var(--border);z-index:300;transform:translateX(100%);transition:transform .25s ease;overflow-y:auto;display:flex;flex-direction:column}
+#proc-panel.open{transform:translateX(0)}
+#proc-overlay{display:none;position:fixed;inset:0;z-index:299;background:rgba(0,0,0,.25)}
+#proc-overlay.open{display:block}
+.pp-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:1}
+.pp-stage-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:100px;color:#fff}
+.pp-name{font-size:15px;font-weight:800;margin-top:6px;letter-spacing:-.2px}
+.pp-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:20px;padding:4px;border-radius:6px;transition:.15s}
+.pp-close:hover{background:var(--bg);color:var(--text)}
+.pp-body{padding:18px;flex:1}
+.pp-field{margin-bottom:16px}
+.pp-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:6px;display:block}
+.pp-input{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;color:var(--text);background:var(--surface2)}
+.pp-input:focus{outline:none;border-color:#94a3b8;background:#fff}
+.pp-input::placeholder{color:var(--text3)}
+.pp-select{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;background:var(--surface2);cursor:pointer;color:var(--text)}
+.pp-select:focus{outline:none;border-color:#94a3b8}
+.pp-textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;color:var(--text);background:var(--surface2);resize:vertical;min-height:120px;line-height:1.6}
+.pp-textarea:focus{outline:none;border-color:#94a3b8;background:#fff}
+.pp-textarea::placeholder{color:var(--text3)}
+.pp-foot{padding:14px 18px;border-top:1px solid var(--border);display:flex;gap:8px}
+.pp-save{flex:1;padding:10px;background:var(--text);color:#fff;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.pp-save:hover{opacity:.85}
+.tub-top{padding:20px 28px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.tub-nav{display:flex;gap:6px;flex-wrap:wrap}
+.tub-nav-pill{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:none;color:#fff;opacity:.7;transition:all .15s;letter-spacing:.3px;font-family:inherit}
+.tub-nav-pill:hover,.tub-nav-pill.active{opacity:1;transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.tub-top-actions{display:flex;gap:8px;align-items:center}
+.tub-search-wrap{position:relative;width:280px}
+.tub-search-input{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--border);border-radius:10px;font-family:inherit;font-size:13px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.tub-search-input:focus{outline:none;border-color:#c9a96e}
+.tub-search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none}
+.tub-search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.15);z-index:100;max-height:300px;overflow-y:auto;display:none}
+.tub-search-results.open{display:block}
+.tub-sr-item{padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .1s;border-bottom:1px solid var(--border)}
+.tub-sr-item:last-child{border-bottom:none}
+.tub-sr-item:hover{background:var(--surface2)}
+.tub-sr-stage{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;flex-shrink:0}
+.tub-sr-name{font-size:13px;font-weight:600;color:var(--text);flex:1}
+.tub-sr-status{font-size:11px;color:var(--text3);margin-top:2px}
+.tub-sr-empty{padding:16px;text-align:center;color:var(--text3);font-size:13px}
+.tub-scroll-wrap{position:relative}
+.tub-scroll-wrap::after{content:'';position:absolute;top:0;right:0;bottom:0;width:72px;background:linear-gradient(to left,var(--bg),transparent);pointer-events:none;z-index:8;transition:opacity .4s}
+.tub-scroll-wrap.no-overflow::after{display:none}
+.tub-scroll-hint{position:absolute;right:80px;bottom:32px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:6px;z-index:9;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.tub-scroll-hint.hidden{display:none}
+.tub-col-prog{margin-top:10px}
+.tub-col-prog-track{height:4px;background:rgba(255,255,255,.2);border-radius:100px;overflow:hidden;margin-bottom:4px}
+.tub-col-prog-fill{height:100%;border-radius:100px;background:rgba(255,255,255,.8);transition:width .5s}
+.tub-col-prog-lbl{font-size:10px;font-weight:700;opacity:.85}
+.banner-health{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:700;margin-bottom:10px;backdrop-filter:blur(6px)}
+.banner-health.bh-green{background:rgba(22,163,74,.25);color:#bbf7d0;border:1px solid rgba(74,222,128,.35)}
+.banner-health.bh-yellow{background:rgba(234,179,8,.2);color:#fef08a;border:1px solid rgba(250,204,21,.35)}
+.banner-health.bh-red{background:rgba(220,38,38,.25);color:#fecaca;border:1px solid rgba(248,113,113,.35)}
+.banner-health.bh-unknown{background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.2)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* DARK MODE */
+[data-theme='dark']{--bg:#111d2e;--surface:#1c2a42;--surface2:#223050;--border:#2a3a57;--text:#e8dcc8;--text2:#a09080;--text3:#6b5d4e;--sh:0 2px 12px rgba(0,0,0,.7),0 1px 4px rgba(0,0,0,.5);color-scheme:dark;}
+[data-theme='dark'] #sidebar{background:#0e1624;border-right-color:#2a3a57}
+[data-theme='dark'] .sb-logo{border-bottom-color:#2a3a57}
+[data-theme='dark'] .sb-logo h1{color:var(--text)}
+[data-theme='dark'] .sb-completion{border-bottom-color:#2a3a57}
+[data-theme='dark'] .sb-bottom{border-top-color:#2a3a57}
+[data-theme='dark'] .nav-item{color:var(--text2)}
+[data-theme='dark'] .nav-item:hover{background:var(--surface2);color:var(--text)}
+[data-theme='dark'] .nav-item.active{background:var(--surface2);color:var(--text)}
+[data-theme='dark'] .topbar{background:#1c2a42;border-bottom-color:#2a3a57}
+[data-theme='dark'] .topbar h2{color:var(--text)}
+[data-theme='dark'] .period-toggle{background:#111d2e}
+[data-theme='dark'] .pt-btn.active{background:#223050;color:var(--text);box-shadow:0 1px 6px rgba(0,0,0,.6)}
+[data-theme='dark'] .pt-btn{color:var(--text2)}
+[data-theme='dark'] .btn-ghost{background:transparent;border-color:#2a3a57;color:var(--text2)}
+[data-theme='dark'] .btn-ghost:hover{background:var(--surface2);color:var(--text)}
+[data-theme='dark'] .btn-solid{background:#e8dcc8;color:#111d2e}
+[data-theme='dark'] .kpi-card{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .kpi-val{color:var(--text)}
+[data-theme='dark'] .kpi-mini-bar{background:#2a3a57}
+[data-theme='dark'] .pipeline-flow{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .pf-stage{border-right-color:#2a3a57}
+[data-theme='dark'] .pf-stage:hover{background:#223050}
+[data-theme='dark'] .pf-val{color:var(--text)}
+[data-theme='dark'] .pf-arrow{color:var(--text3)}
+[data-theme='dark'] .onboarding-guide{background:linear-gradient(135deg,#1c2a42,#1e1a38);border-color:#4c35a0}
+[data-theme='dark'] .og-title{color:var(--text)}
+[data-theme='dark'] .og-step{background:#223050;border-color:#2a3a57}
+[data-theme='dark'] .og-step:hover{background:#223050;border-color:#7c3aed;transform:translateX(3px)}
+[data-theme='dark'] .rev-calc{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .rev-calc-head{border-bottom-color:#2a3a57;color:var(--text)}
+[data-theme='dark'] .rev-node{background:#223050;border-color:#2a3a57}
+[data-theme='dark'] .rev-node-val{color:var(--text)}
+[data-theme='dark'] .rev-node-lbl{color:var(--text2)}
+[data-theme='dark'] .rev-op{color:var(--text3);font-weight:900}
+[data-theme='dark'] .rev-rate{background:#111d2e;border-color:#2a3a57;color:var(--text2)}
+[data-theme='dark'] .rev-node.highlight{background:linear-gradient(135deg,#2a1500,#3b1f00);border-color:#b45309}
+[data-theme='dark'] .rev-node.highlight .rev-node-val{color:#fbbf24}
+[data-theme='dark'] .rev-node.profit{background:linear-gradient(135deg,#031a0c,#042a12);border-color:#16a34a}
+[data-theme='dark'] .rev-node.profit .rev-node-val{color:#4ade80;font-size:24px}
+[data-theme='dark'] .metric-card{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .mc-name{color:var(--text2)}
+[data-theme='dark'] .progress-wrap{background:#2a3a57}
+[data-theme='dark'] .mc-ig input,[data-theme='dark'] .proc-input,[data-theme='dark'] .proc-select,[data-theme='dark'] .bn-select,[data-theme='dark'] .bn-notes,[data-theme='dark'] .proc-body textarea,[data-theme='dark'] .notes-box textarea,[data-theme='dark'] .pp-input,[data-theme='dark'] .pp-select,[data-theme='dark'] .pp-textarea{background:#111d2e;border-color:#2a3a57;color:var(--text);}
+[data-theme='dark'] .mc-ig input:focus,[data-theme='dark'] .proc-input:focus,[data-theme='dark'] .bn-notes:focus,[data-theme='dark'] .proc-body textarea:focus,[data-theme='dark'] .notes-box textarea:focus,[data-theme='dark'] .pp-input:focus,[data-theme='dark'] .pp-textarea:focus{background:#111d2e;border-color:#c9a96e;outline:none;}
+[data-theme='dark'] option{background:#1c2a42;color:var(--text)}
+[data-theme='dark'] .proc-item{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .proc-head:hover{background:#223050}
+[data-theme='dark'] .proc-name{color:var(--text)}
+[data-theme='dark'] .proc-body{background:#223050;border-top-color:#2a3a57}
+[data-theme='dark'] .proc-body label{color:var(--text3)}
+[data-theme='dark'] .bn-item{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .bn-name{color:var(--text)}
+[data-theme='dark'] .notes-box{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .tab-nav{border-bottom-color:#2a3a57}
+[data-theme='dark'] .tab-btn{color:var(--text3)}
+[data-theme='dark'] .tab-btn:hover{color:var(--text2)}
+[data-theme='dark'] .tab-btn.active{color:var(--text);border-bottom-color:#c9a96e}
+[data-theme='dark'] .subgroup-line{background:#2a3a57}
+[data-theme='dark'] .sec-count{background:#223050;color:var(--text2)}
+[data-theme='dark'] .tub-col-body{background:#162035;border-color:#2a3a57;}
+[data-theme='dark'] .tub-node{background:#1e2d45;border:1px solid #2d4060;border-left:3px solid transparent;}
+[data-theme='dark'] .tub-node-name{color:#e8dcc8;font-weight:600;}
+[data-theme='dark'] .tub-node-owner{color:#a09080}
+[data-theme='dark'] .tub-node:hover{background:#253850;border-color:#3d5280;box-shadow:0 4px 16px rgba(0,0,0,.6);transform:translateX(3px);}
+[data-theme='dark'] .tub-group-lbl{color:#6b5d4e;letter-spacing:.8px}
+[data-theme='dark'] .tub-scroll{background:#0a1220}
+[data-theme='dark'] .tub-search-input{background:#111d2e;border-color:#2a3a57;color:var(--text)}
+[data-theme='dark'] .tub-search-input:focus{border-color:#c9a96e}
+[data-theme='dark'] .tub-search-results{background:#1c2a42;border-color:#2a3a57}
+[data-theme='dark'] .tub-sr-item{border-bottom-color:#2a3a57}
+[data-theme='dark'] .tub-sr-item:hover{background:#223050}
+[data-theme='dark'] .tub-conn-conv{background:#162035;border-color:#2a3a57;color:#a09080}
+[data-theme='dark'] .tub-conn-line{background:#2a3a57}
+[data-theme='dark'] .tub-conn-arrow{color:#4a5e7a}
+[data-theme='dark'] #proc-panel{background:#1c2a42;border-left-color:#2a3a57}
+[data-theme='dark'] .pp-head{background:#1c2a42;border-bottom-color:#2a3a57}
+[data-theme='dark'] .pp-name{color:var(--text)}
+[data-theme='dark'] .pp-label{color:var(--text3)}
+[data-theme='dark'] .pp-foot{border-top-color:#2a3a57;background:#1c2a42}
+[data-theme='dark'] .pp-close{color:var(--text2)}
+[data-theme='dark'] .pp-close:hover{background:#223050;color:var(--text)}
+[data-theme='dark'] .pp-save{background:#4caf82;color:#111d2e;border:none}
+[data-theme='dark'] .toast{background:rgba(17,29,46,.97);color:#e8dcc8;font-weight:600;border:1px solid #2a3a57}
+[data-theme='dark'] ::-webkit-scrollbar-thumb{background:#2a3a57}
+[data-theme='dark'] ::-webkit-scrollbar-thumb:hover{background:#3a5070}
+[data-theme='dark'] .sb-back a{color:var(--text3)}
+[data-theme='dark'] .sb-back a:hover{background:var(--surface2);color:var(--text)}
+
+@media(max-width:768px){
+  :root{--sidebar:248px}
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #sb-overlay.open{display:block}
+  #main{margin-left:0}
+  .hamburger{display:flex;align-items:center;justify-content:center}
+  .dash-kpis{grid-template-columns:repeat(2,1fr)}
+  .pipeline-flow{display:none}
+  .content{padding:16px}
+  .topbar{padding:12px 16px}
+  .proc-head{grid-template-columns:26px 1fr;gap:8px}
+  .proc-head .proc-input,.proc-head .proc-select{display:none}
+  #proc-panel{width:100%}
+}
+</style>
+</head>
+<body>
+
+<div id="proc-overlay" onclick="closeProcPanel()"></div>
+<div id="proc-panel">
+  <div class="pp-head">
+    <div>
+      <span class="pp-stage-tag" id="pp-stage-tag"></span>
+      <div class="pp-name" id="pp-proc-name"></div>
+    </div>
+    <button class="pp-close" onclick="closeProcPanel()">✕</button>
+  </div>
+  <div class="pp-body">
+    <div class="pp-field">
+      <label class="pp-label">Responsable</label>
+      <input class="pp-input" id="pp-owner" type="text" placeholder="¿Quién ejecuta este proceso?">
+    </div>
+    <div class="pp-field">
+      <label class="pp-label">Estado</label>
+      <select class="pp-select" id="pp-status">
+        <option value="pending">⬜ Pendiente — no implementado</option>
+        <option value="active">✅ Activo — funciona bien</option>
+        <option value="optimizing">🔄 Optimizando — en mejora</option>
+        <option value="issue">🔴 Problema — necesita atención</option>
+      </select>
+    </div>
+    <div class="pp-field">
+      <label class="pp-label">¿Cómo funciona en tu negocio?</label>
+      <textarea class="pp-textarea" id="pp-desc" placeholder="Describe paso a paso: herramientas, guiones, tiempos, quién lo hace y cómo..."></textarea>
+    </div>
+  </div>
+  <div class="pp-foot">
+    <button class="pp-save" onclick="saveProcPanel()">Guardar proceso</button>
+  </div>
+</div>
+
+<div id="sb-overlay" onclick="closeSidebar()"></div>
+<aside id="sidebar">
+  <div class="sb-logo">
+    <h1>Espectro Comercial</h1>
+    <p>Manuel Moreno · Business Pipeline</p>
+  </div>
+  <div class="sb-back">
+    <a href="index.html">← Volver al Workspace</a>
+  </div>
+  <div class="sb-completion">
+    <div class="sb-comp-header">
+      <span class="sb-comp-label">Mapa completado</span>
+      <span class="sb-comp-pct" id="sb-pct">0%</span>
+    </div>
+    <div class="sb-comp-track">
+      <div class="sb-comp-fill" id="sb-fill" style="width:0%"></div>
+    </div>
+    <div class="sb-comp-subs">
+      <span class="sb-comp-sub"><span class="sb-comp-dot" style="background:#7c3aed"></span><span id="sb-sub-mets">0% métricas</span></span>
+      <span class="sb-comp-sub"><span class="sb-comp-dot" style="background:#2563eb"></span><span id="sb-sub-procs">0% procesos</span></span>
+    </div>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Vista General</div>
+    <button class="nav-item active" onclick="nav('dashboard')"><span>⬡</span> Dashboard</button>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Etapas del Pipeline</div>
+    <button class="nav-item" onclick="nav('marketing')" id="nb-marketing"><span class="nav-dot" style="background:var(--c-mk)"></span>Marketing<span class="nav-health" id="nh-marketing"></span></button>
+    <button class="nav-item" onclick="nav('prospeccion')" id="nb-prospeccion"><span class="nav-dot" style="background:var(--c-pr)"></span>Prospección / Setteo<span class="nav-health" id="nh-prospeccion"></span></button>
+    <button class="nav-item" onclick="nav('ventas')" id="nb-ventas"><span class="nav-dot" style="background:var(--c-vt)"></span>Ventas<span class="nav-health" id="nh-ventas"></span></button>
+    <button class="nav-item" onclick="nav('producto')" id="nb-producto"><span class="nav-dot" style="background:var(--c-pd)"></span>Producto / Servicio<span class="nav-health" id="nh-producto"></span></button>
+    <button class="nav-item" onclick="nav('profit')" id="nb-profit"><span class="nav-dot" style="background:var(--c-pf)"></span>Profit y Reinversión<span class="nav-health" id="nh-profit"></span></button>
+  </div>
+  <div class="sb-sec">
+    <div class="sb-lbl">Vista Completa</div>
+    <button class="nav-item" onclick="nav('tuberia')" id="nb-tuberia"><span>⟶</span> Vista Tubería</button>
+  </div>
+  <div class="sb-bottom">
+    <button class="nav-item" id="dark-toggle" onclick="toggleDark()"><span>🌙</span> Modo oscuro</button>
+    <button class="nav-item" onclick="exportData()"><span>↓</span> Exportar JSON</button>
+    <button class="nav-item" onclick="document.getElementById('fi').click()"><span>↑</span> Importar JSON</button>
+  </div>
+</aside>
+
+<main id="main">
+
+<div id="view-dashboard" class="view active">
+  <div class="topbar">
+    <button class="hamburger" onclick="openSidebar()">☰</button>
+    <h2>⬡ Dashboard</h2>
+    <div class="topbar-actions">
+      <div class="period-toggle">
+        <button class="pt-btn active" id="pt-mensual" onclick="setPeriod('mensual')">Mensual</button>
+        <button class="pt-btn" id="pt-semanal" onclick="setPeriod('semanal')">Semanal</button>
+      </div>
+      <button class="btn btn-ghost" onclick="saveAll()">💾 Guardar</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="onboarding-guide" id="onboarding-guide">
+      <div class="og-title">👋 Bienvenido a tu Espectro Comercial</div>
+      <div class="og-sub">Completa estos 3 pasos para tener claridad total de tu negocio:</div>
+      <div class="og-steps">
+        <div class="og-step" onclick="nav('marketing')"><div class="og-step-num" style="background:#7c3aed">1</div><div class="og-step-info"><div class="og-step-title">Llena tus métricas de Marketing</div><div class="og-step-desc">¿Cuántos leads generás y cuál es tu objetivo?</div></div><span class="og-step-arrow">→</span></div>
+        <div class="og-step" onclick="nav('ventas')"><div class="og-step-num" style="background:#ea580c">2</div><div class="og-step-info"><div class="og-step-title">Completa Ventas (tasa de cierre + AOV)</div><div class="og-step-desc">Son los datos que calculan tu ingreso proyectado</div></div><span class="og-step-arrow">→</span></div>
+        <div class="og-step" onclick="nav('tuberia')"><div class="og-step-num" style="background:#059669">3</div><div class="og-step-info"><div class="og-step-title">Documenta tus procesos en la Vista Tubería</div><div class="og-step-desc">Haz clic en cada nodo para describir cómo funciona</div></div><span class="og-step-arrow">→</span></div>
+      </div>
+    </div>
+    <div class="dash-kpis">
+      <div class="kpi-card"><div class="kpi-lbl">Mapa completado</div><div class="kpi-val" id="kpi-comp">0%</div><div class="kpi-mini-bar"><div class="kpi-mini-fill" id="kpi-comp-bar" style="width:0%"></div></div><div class="kpi-sub" id="kpi-comp-sub">Empieza llenando datos</div></div>
+      <div class="kpi-card"><div class="kpi-lbl">Procesos documentados</div><div class="kpi-val" id="kpi-docs">0</div><div class="kpi-sub" id="kpi-docs-sub">de 47 procesos</div><div class="kpi-cta" onclick="nav('tuberia')">Documentar →</div></div>
+      <div class="kpi-card"><div class="kpi-lbl">Métricas con objetivo</div><div class="kpi-val" id="kpi-mets">0</div><div class="kpi-sub">de 19 métricas</div><div class="kpi-cta" onclick="nav('marketing')">Completar →</div></div>
+      <div class="kpi-card"><div class="kpi-lbl">Salud general</div><div class="kpi-val" id="kpi-health">—</div><div class="kpi-sub" id="kpi-health-sub">Sin datos aún</div></div>
+    </div>
+    <div class="sec-hdr" style="margin-top:0"><div class="sec-title">Flujo del Pipeline</div></div>
+    <div class="pipeline-flow">
+      <div class="pf-stage" onclick="nav('marketing')"><div class="pf-icon">📣</div><div class="pf-name" style="color:var(--c-mk)">Marketing</div><div class="pf-val" id="pf-v-marketing">—</div><div class="pf-key" id="pf-k-marketing">Leads / mes</div><div class="pf-badge" id="pf-b-marketing" style="background:#f1f5f9;color:var(--text3)">Sin datos</div></div>
+      <div class="pf-arrow">›</div>
+      <div class="pf-stage" onclick="nav('prospeccion')"><div class="pf-icon">📅</div><div class="pf-name" style="color:var(--c-pr)">Prospección</div><div class="pf-val" id="pf-v-prospeccion">—</div><div class="pf-key" id="pf-k-prospeccion">Tasa Agenda</div><div class="pf-badge" id="pf-b-prospeccion" style="background:#f1f5f9;color:var(--text3)">Sin datos</div></div>
+      <div class="pf-arrow">›</div>
+      <div class="pf-stage" onclick="nav('ventas')"><div class="pf-icon">🎯</div><div class="pf-name" style="color:var(--c-vt)">Ventas</div><div class="pf-val" id="pf-v-ventas">—</div><div class="pf-key" id="pf-k-ventas">Tasa Cierre</div><div class="pf-badge" id="pf-b-ventas" style="background:#f1f5f9;color:var(--text3)">Sin datos</div></div>
+      <div class="pf-arrow">›</div>
+      <div class="pf-stage" onclick="nav('producto')"><div class="pf-icon">⚡</div><div class="pf-name" style="color:var(--c-pd)">Producto</div><div class="pf-val" id="pf-v-producto">—</div><div class="pf-key" id="pf-k-producto">% Reembolsos</div><div class="pf-badge" id="pf-b-producto" style="background:#f1f5f9;color:var(--text3)">Sin datos</div></div>
+      <div class="pf-arrow">›</div>
+      <div class="pf-stage" onclick="nav('profit')"><div class="pf-icon">💰</div><div class="pf-name" style="color:var(--c-pf)">Profit</div><div class="pf-val" id="pf-v-profit">—</div><div class="pf-key" id="pf-k-profit">% Resell</div><div class="pf-badge" id="pf-b-profit" style="background:#f1f5f9;color:var(--text3)">Sin datos</div></div>
+    </div>
+    <div class="dash-hint">Haz clic en cualquier etapa para editarla · Cmd+S para guardar</div>
+    <div class="rev-calc">
+      <div class="rev-calc-head">
+        <div class="rev-calc-title">🧮 Calculadora de Ingresos <span id="rev-period-lbl" style="font-size:12px;font-weight:500;color:var(--text3)">— mensual</span></div>
+        <span style="font-size:11px;color:var(--text3)">Se actualiza automáticamente con tus métricas</span>
+      </div>
+      <div class="rev-calc-body"><div id="rev-chain-wrap"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="view-marketing" class="view">
+  <div class="topbar"><button class="hamburger" onclick="openSidebar()">☰</button><h2 style="color:var(--c-mk)">📣 Marketing</h2><div class="topbar-actions"><button class="btn btn-ghost" onclick="saveAll()">💾 Guardar</button></div></div>
+  <div class="content">
+    <div class="stage-banner" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)" data-icon="📣"><span class="banner-health bh-unknown" id="bh-marketing">— Sin datos</span><h2>MARKETING</h2><p>Generación de leads y conversaciones con prospectos</p><div class="banner-metrics" id="bm-marketing"></div></div>
+    <div class="tab-nav"><button class="tab-btn active" onclick="showTab('marketing','metricas')">📊 Métricas</button><button class="tab-btn" onclick="showTab('marketing','procesos')">⚙️ Procesos</button><button class="tab-btn" onclick="showTab('marketing','cuellos')">🚧 Cuellos de Botella</button><button class="tab-btn" onclick="showTab('marketing','notas')">📝 Notas</button></div>
+    <div class="tab-pane active" id="tp-marketing-metricas"><div class="metrics-grid" id="mg-marketing"></div></div>
+    <div class="tab-pane" id="tp-marketing-procesos"><div class="process-list" id="pl-marketing"></div></div>
+    <div class="tab-pane" id="tp-marketing-cuellos"><div class="bn-list" id="bl-marketing"></div></div>
+    <div class="tab-pane" id="tp-marketing-notas"><div class="notes-box"><label>Notas generales de Marketing</label><textarea id="notes-marketing" placeholder="Observaciones, ideas, recordatorios..." oninput="autoSave()"></textarea></div></div>
+  </div>
+</div>
+
+<div id="view-prospeccion" class="view">
+  <div class="topbar"><button class="hamburger" onclick="openSidebar()">☰</button><h2 style="color:var(--c-pr)">📅 Prospección / Setteo</h2><div class="topbar-actions"><button class="btn btn-ghost" onclick="saveAll()">💾 Guardar</button></div></div>
+  <div class="content">
+    <div class="stage-banner" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)" data-icon="📅"><span class="banner-health bh-unknown" id="bh-prospeccion">— Sin datos</span><h2>PROSPECCIÓN / SETTEO</h2><p>Agendamiento de llamadas y proceso pre-call</p><div class="banner-metrics" id="bm-prospeccion"></div></div>
+    <div class="tab-nav"><button class="tab-btn active" onclick="showTab('prospeccion','metricas')">📊 Métricas</button><button class="tab-btn" onclick="showTab('prospeccion','procesos')">⚙️ Procesos</button><button class="tab-btn" onclick="showTab('prospeccion','cuellos')">🚧 Cuellos de Botella</button><button class="tab-btn" onclick="showTab('prospeccion','notas')">📝 Notas</button></div>
+    <div class="tab-pane active" id="tp-prospeccion-metricas"><div class="metrics-grid" id="mg-prospeccion"></div></div>
+    <div class="tab-pane" id="tp-prospeccion-procesos"><div class="process-list" id="pl-prospeccion"></div></div>
+    <div class="tab-pane" id="tp-prospeccion-cuellos"><div class="bn-list" id="bl-prospeccion"></div></div>
+    <div class="tab-pane" id="tp-prospeccion-notas"><div class="notes-box"><label>Notas generales de Prospección</label><textarea id="notes-prospeccion" placeholder="Observaciones..." oninput="autoSave()"></textarea></div></div>
+  </div>
+</div>
+
+<div id="view-ventas" class="view">
+  <div class="topbar"><button class="hamburger" onclick="openSidebar()">☰</button><h2 style="color:var(--c-vt)">🎯 Ventas</h2><div class="topbar-actions"><button class="btn btn-ghost" onclick="saveAll()">💾 Guardar</button></div></div>
+  <div class="content">
+    <div class="stage-banner" style="background:linear-gradient(135deg,#ea580c,#c2410c)" data-icon="🎯"><span class="banner-health bh-unknown" id="bh-ventas">— Sin datos</span><h2>VENTAS</h2><p>Llamadas, cierre y cobro</p><div class="banner-metrics" id="bm-ventas"></div></div>
+    <div class="tab-nav"><button class="tab-btn active" onclick="showTab('ventas','metricas')">📊 Métricas</button><button class="tab-btn" onclick="showTab('ventas','procesos')">⚙️ Procesos</button><button class="tab-btn" onclick="showTab('ventas','cuellos')">🚧 Cuellos de Botella</button><button class="tab-btn" onclick="showTab('ventas','notas')">📝 Notas</button></div>
+    <div class="tab-pane active" id="tp-ventas-metricas"><div class="metrics-grid" id="mg-ventas"></div></div>
+    <div class="tab-pane" id="tp-ventas-procesos"><div class="process-list" id="pl-ventas"></div></div>
+    <div class="tab-pane" id="tp-ventas-cuellos"><div class="bn-list" id="bl-ventas"></div></div>
+    <div class="tab-pane" id="tp-ventas-notas"><div class="notes-box"><label>Notas generales de Ventas</label><textarea id="notes-ventas" placeholder="Observaciones..." oninput="autoSave()"></textarea></div></div>
+  </div>
+</div>
+
+<div id="view-producto" class="view">
+  <div class="topbar"><button class="hamburger" onclick="openSidebar()">☰</button><h2 style="color:var(--c-pd)">⚡ Producto / Servicio</h2><div class="topbar-actions"><button class="btn btn-ghost" onclick="saveAll()">💾 Guardar</button></div></div>
+  <div class="content">
+    <div class="stage-banner" style="background:linear-gradient(135deg,#059669,#047857)" data-icon="⚡"><span class="banner-health bh-unknown" id="bh-producto">— Sin datos</span><h2>PRODUCTO / SERVICIO</h2><p>Entrega, resultados y retención de clientes</p><div class="banner-metrics" id="bm-producto"></div></div>
+    <div class="tab-nav"><button class="tab-btn active" onclick="showTab('producto','metricas')">📊 Métricas</button><button class="tab-btn" onclick="showTab('producto','procesos')">⚙️ Procesos</button><button class="tab-btn" onclick="showTab('producto','cuellos')">🚧 Cuellos de Botella</button><button class="tab-btn" onclick="showTab('producto','notas')">📝 Notas</button></div>
+    <div class="tab-pane active" id="tp-producto-metricas"><div class="metrics-grid" id="mg-producto"></div></div>
+    <div class="tab-pane" id="tp-producto-procesos"><div class="process-list" id="pl-producto"></div></div>
+    <div class="tab-pane" id="tp-producto-cuellos"><div class="bn-list" id="bl-producto"></div></div>
+    <div class="tab-pane" id="tp-producto-notas"><div class="notes-box"><label>Notas generales de Producto/Servicio</label><textarea id="notes-producto" placeholder="Observaciones..." oninput="autoSave()"></textarea></div></div>
+  </div>
+</div>
+
+<div id="view-profit" class="view">
+  <div class="topbar"><button class="hamburger" onclick="openSidebar()">☰</button><h2 style="color:var(--c-pf)">💰 Profit y Reinversión</h2><div class="topbar-actions"><button class="btn btn-ghost" onclick="saveAll()">💾 Guardar</button></div></div>
+  <div class="content">
+    <div class="stage-banner" style="background:linear-gradient(135deg,#d97706,#b45309)" data-icon="💰"><span class="banner-health bh-unknown" id="bh-profit">— Sin datos</span><h2>PROFIT Y REINVERSIÓN</h2><p>Upsell, resell, garantías y reinversión estratégica</p><div class="banner-metrics" id="bm-profit"></div></div>
+    <div class="tab-nav"><button class="tab-btn active" onclick="showTab('profit','metricas')">📊 Métricas</button><button class="tab-btn" onclick="showTab('profit','procesos')">⚙️ Procesos</button><button class="tab-btn" onclick="showTab('profit','cuellos')">🚧 Cuellos de Botella</button><button class="tab-btn" onclick="showTab('profit','notas')">📝 Notas</button></div>
+    <div class="tab-pane active" id="tp-profit-metricas"><div class="metrics-grid" id="mg-profit"></div></div>
+    <div class="tab-pane" id="tp-profit-procesos"><div class="process-list" id="pl-profit"></div></div>
+    <div class="tab-pane" id="tp-profit-cuellos"><div class="bn-list" id="bl-profit"></div></div>
+    <div class="tab-pane" id="tp-profit-notas"><div class="notes-box"><label>Notas generales de Profit y Reinversión</label><textarea id="notes-profit" placeholder="Observaciones..." oninput="autoSave()"></textarea></div></div>
+  </div>
+</div>
+
+<div id="view-tuberia" class="view">
+  <div class="topbar"><button class="hamburger" onclick="openSidebar()">☰</button><h2>⟶ Vista Tubería</h2><div class="topbar-actions"><span style="font-size:11px;color:var(--text3)">Click en cualquier proceso para editar</span><button class="btn btn-ghost" onclick="window.print()">🖨️ Exportar</button><button class="btn btn-ghost" onclick="saveAll()">💾 Guardar</button></div></div>
+  <div class="tub-top"><div class="tub-nav" id="tub-stage-nav"></div><div class="tub-search-wrap"><span class="tub-search-icon">🔍</span><input class="tub-search-input" id="tub-search" type="text" placeholder="Buscar proceso..." oninput="searchProcesses(this.value)" onfocus="showSearchResults()" onblur="setTimeout(hideSearchResults,200)"><div class="tub-search-results" id="tub-search-results"></div></div></div>
+  <div class="tub-scroll-wrap" id="tub-scroll-wrap"><div class="tub-scroll-hint" id="tub-scroll-hint">4 etapas más →</div><div class="tub-scroll" id="tub-scroll-el" onscroll="onTubScroll()"><div class="tub-flow" id="tub-flow"></div></div></div>
+</div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="fi" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<script>
+const STAGES={marketing:{color:'#7c3aed',label:'Marketing',metrics:[{id:'leads',name:'Leads / Conversaciones',unit:'#',inv:false,ph_v:'ej: 50',ph_t:'ej: 100'},{id:'alcance',name:'Alcance / Impresiones',unit:'#',inv:false,ph_v:'ej: 5000',ph_t:'ej: 10000'},{id:'ctr',name:'CTR del contenido',unit:'%',inv:false,ph_v:'ej: 3.5',ph_t:'ej: 5'},{id:'costo_lead',name:'Costo por Lead (ads)',unit:'$',inv:true,ph_v:'ej: 15',ph_t:'ej: 20'}],processes:[{id:'mercado',name:'Mercado / Nicho objetivo',group:null},{id:'contenido',name:'Pieza de Contenido (Reel / Historia / YT)',group:null},{id:'hook',name:'Hook y ángulo del contenido',group:null},{id:'cta',name:'CTA (Llamada a la acción)',group:null},{id:'manychat',name:'Automatización / DM Setter',group:null},{id:'distribucion',name:'Distribución (Contenido / Ads / Prosp. fría)',group:null}],bottlenecks:[{id:'est_com',name:'Estrategia de Comunicación'},{id:'cal_cont',name:'Calidad del Contenido'},{id:'hook_bn',name:'Hook (primeros 3 segundos)'},{id:'idea_cont',name:'Idea / Concepto del Contenido'},{id:'cta_bn',name:'CTA (conversión a conversación)'}]},prospeccion:{color:'#2563eb',label:'Prospección',metrics:[{id:'sa_conv',name:'Conv. Totales (Setters)',unit:'#',inv:false,ph_v:'ej: 2000',ph_t:'ej: 3000'},{id:'sa_ll',name:'Llamadas Propuestas',unit:'#',inv:false,ph_v:'ej: 150',ph_t:'ej: 200'},{id:'sa_lk',name:'Links Enviados',unit:'#',inv:false,ph_v:'ej: 150',ph_t:'ej: 200'},{id:'sa_ag',name:'Agendados',unit:'#',inv:false,ph_v:'ej: 100',ph_t:'ej: 130'},{id:'tasa_agenda',name:'% Tasa de Agenda',unit:'%',inv:false,ph_v:'ej: 20',ph_t:'ej: 35'},{id:'show_up',name:'% Show Up Rate',unit:'%',inv:false,ph_v:'ej: 60',ph_t:'ej: 80'}],processes:[{id:'calendly',name:'Envío del Calendly / link de agenda',group:null},{id:'confirmacion',name:'Confirmación de la llamada',group:null},{id:'recuerdos_ig',name:'Recordatorios (día de la llamada)',group:null},{id:'conv_wsp',name:'Mantener conversación por WhatsApp',group:null},{id:'conv_previas',name:'Conversación activa hasta 1-2hs antes',group:null},{id:'agenda_fmt',name:'Agenda / Formato de la llamada de ventas',group:null}],bottlenecks:[{id:'mkt_com',name:'Marketing y Comunicación (calidad de leads)'},{id:'estr_prosp',name:'Estructura del proceso de prospección'},{id:'proceso_precall',name:'Proceso Pre-Call (confirmación y warm-up)'}]},ventas:{color:'#ea580c',label:'Ventas',metrics:[{id:'llamadas_v',name:'Llamadas',unit:'#',inv:false,ph_v:'ej: 50',ph_t:'ej: 100'},{id:'asistidas',name:'Asistidas',unit:'#',inv:false,ph_v:'ej: 40',ph_t:'ej: 80'},{id:'show_up_v',name:'% Asistencia',unit:'%',inv:false,ph_v:'ej: 65',ph_t:'ej: 80'},{id:'ofertas',name:'Ofertas',unit:'#',inv:false,ph_v:'ej: 40',ph_t:'ej: 80'},{id:'cierres',name:'Cierres',unit:'#',inv:false,ph_v:'ej: 15',ph_t:'ej: 30'},{id:'tasa_cierre',name:'% Tasa de Cierre',unit:'%',inv:false,ph_v:'ej: 25',ph_t:'ej: 40'},{id:'cash_m',name:'Cash Collected',unit:'$',inv:false,ph_v:'ej: 40000',ph_t:'ej: 70000'},{id:'aov',name:'Ticket Promedio (AOV)',unit:'$',inv:false,ph_v:'ej: 2000',ph_t:'ej: 2500'}],processes:[{id:'show',name:'Show — Prospecto se presenta',group:'Pre-Llamada'},{id:'apertura',name:'Apertura de la llamada',group:'Llamada de Ventas'},{id:'preguntas',name:'Preguntas de diagnóstico',group:'Llamada de Ventas'},{id:'presentacion',name:'Presentación de la oferta',group:'Llamada de Ventas'},{id:'objeciones',name:'Manejo de objeciones',group:'Llamada de Ventas'},{id:'expectativas',name:'Establecer expectativas del cliente',group:'Llamada de Ventas'},{id:'terminos',name:'Negociación de términos de pago',group:'Cierre'},{id:'contrato',name:'Envío y firma del contrato',group:'Cierre'},{id:'pago',name:'Cobro / Pago (Día 1)',group:'Cierre'}],bottlenecks:[{id:'la_oferta',name:'La Oferta (propuesta de valor)'},{id:'guion',name:'Guión de Ventas'},{id:'habilidad',name:'Habilidad del Closer'},{id:'valor_ll',name:'No se vende bien el valor de la llamada'}]},producto:{color:'#059669',label:'Producto',metrics:[{id:'tasa_reembolsos',name:'% Tasa de Reembolsos',unit:'%',inv:true,ph_v:'ej: 2',ph_t:'ej: 1'},{id:'tasa_resell',name:'% Tasa de Resell / Upsell',unit:'%',inv:false,ph_v:'ej: 20',ph_t:'ej: 35'},{id:'nps',name:'NPS / Satisfacción (1-10)',unit:'/10',inv:false,ph_v:'ej: 8',ph_t:'ej: 9'},{id:'casos_exito',name:'Casos de éxito generados',unit:'#',inv:false,ph_v:'ej: 3',ph_t:'ej: 5'}],processes:[{id:'form_onb',name:'Formulario de Onboarding',group:'Onboarding'},{id:'acc_skool',name:'Acceso a plataforma',group:'Onboarding'},{id:'acc_discord',name:'Acceso a comunidad',group:'Onboarding'},{id:'pres_prog',name:'Presentación del programa',group:'Onboarding'},{id:'intro',name:'Introducción y bienvenida',group:'Onboarding'},{id:'genesis',name:'Génesis Fundacional',group:'Programa'},{id:'sis_ventas',name:'Sistemas de Ventas',group:'Programa'},{id:'serv_sis',name:'Servicio y Sistemas',group:'Programa'},{id:'adq_clientes',name:'Adquisición de Clientes',group:'Programa'},{id:'fundaciones',name:'Fundaciones de Negocio',group:'Programa'},{id:'lanzamiento',name:'Lanzamiento',group:'Programa'},{id:'prim_res',name:'Primeros Resultados',group:'Resultados'},{id:'mas_res',name:'Más Resultados (escala)',group:'Resultados'},{id:'obj_alc',name:'Alcanzar Objetivos principales',group:'Resultados'},{id:'nirvana',name:'Nirvana — Resultado máximo',group:'Resultados'},{id:'doc_audit',name:'Documento de Auditoría',group:'Documentación'},{id:'feedback',name:'Feedback y primeros accionables',group:'Documentación'},{id:'entrevistas',name:'Entrevistas de Casos de Éxito',group:'Documentación'},{id:'victorias',name:'Posteo de Victorias',group:'Documentación'}],bottlenecks:[{id:'exp_cliente',name:'Expectativas del Cliente (mal gestionadas)'},{id:'mal_serv',name:'Mal Servicio o entrega incompleta'},{id:'cl_no_cal',name:'Clientes No Calificados'},{id:'res_cl',name:'Resultados de Clientes (base para Resell)'},{id:'oferta_sig',name:'Oferta para resolver el próximo problema'},{id:'seg_fin',name:'Seguimiento al finalizar el servicio'}]},profit:{color:'#d97706',label:'Profit',metrics:[{id:'tasa_resell_p',name:'% Tasa de Resell / Upsell',unit:'%',inv:false,ph_v:'ej: 30',ph_t:'ej: 45'},{id:'garantia_act',name:'% Garantías activadas',unit:'%',inv:false,ph_v:'ej: 5',ph_t:'ej: 20'},{id:'roi_reinv',name:'ROI de Reinversión',unit:'x',inv:false,ph_v:'ej: 3',ph_t:'ej: 5'},{id:'profit_m',name:'Cash Collected',unit:'$',inv:false,ph_v:'ej: 42000',ph_t:'ej: 70000'}],processes:[{id:'upsell',name:'Upsell (oferta de nivel superior)',group:'Monetización'},{id:'resell',name:'Resell (renovación / continuación)',group:'Monetización'},{id:'garantia',name:'Activación de Garantía no utilizada',group:'Monetización'},{id:'reinv_mk',name:'Reinversión en Marketing',group:'Reinversión'},{id:'reinv_equipo',name:'Reinversión en Equipo',group:'Reinversión'},{id:'reinv_prod',name:'Reinversión en Producto / Infra',group:'Reinversión'},{id:'profit_dist',name:'Distribución del Profit (take-home)',group:'Resultado Final'}],bottlenecks:[{id:'res_resell',name:'Resultados de clientes (palanca de Resell)'},{id:'oferta_prox',name:'Oferta para el próximo problema del cliente'},{id:'seg_resell',name:'Seguimiento post-servicio para Resell'}]}};
+
+let D={};const STAGE_IDS=Object.keys(STAGES);
+STAGE_IDS.forEach(s=>{D[s]={metrics:{},processes:{},bottlenecks:{},notes:''};});
+let saveTimer=null,period='mensual',ppSid=null,ppPid=null;
+
+function pct(val,tgt,inv){const v=parseFloat(val),t=parseFloat(tgt);if(isNaN(v)||isNaN(t)||t===0)return null;return Math.min(Math.max((inv?t/v:v/t)*100,0),150);}
+function healthColor(p){if(p===null)return 'unknown';if(p>=90)return 'green';if(p>=65)return 'yellow';return 'red';}
+const HC={green:{bg:'#dcfce7',c:'#15803d',dot:'#4ade80',lbl:'✓ En objetivo'},yellow:{bg:'#fef9c3',c:'#a16207',dot:'#fbbf24',lbl:'⚠ Revisar'},red:{bg:'#fee2e2',c:'#b91c1c',dot:'#f87171',lbl:'✗ Atención'},unknown:{bg:'#f1f5f9',c:'#64748b',dot:'#94a3b8',lbl:'— Sin datos'}};
+function stageHealth(sid){const vals=STAGES[sid].metrics.map(m=>{const d=D[sid].metrics[m.id]||{};return pct(d.value,d.target,m.inv);}).filter(x=>x!==null);if(!vals.length)return 'unknown';return healthColor(vals.reduce((a,b)=>a+b,0)/vals.length);}
+function calcCompletion(){let totalMets=0,filledMets=0,totalProcs=0,descProcs=0;STAGE_IDS.forEach(sid=>{STAGES[sid].metrics.forEach(m=>{totalMets++;const d=D[sid].metrics[m.id]||{};if(d.value&&d.target)filledMets++;});STAGES[sid].processes.forEach(p=>{totalProcs++;const d=D[sid].processes[p.id]||{};if((d.description||'').length>12)descProcs++;});});const mPct=totalMets?Math.round(filledMets/totalMets*100):0,pPct=totalProcs?Math.round(descProcs/totalProcs*100):0,overall=Math.round((mPct+pPct)/2);return{overall,mPct,pPct,filledMets,totalMets,descProcs,totalProcs};}
+
+function calcRevenue(){const isWeekly=period==='semanal',factor=isWeekly?0.25:1;const leads=parseFloat((D.marketing.metrics.leads||{}).value),agenda=parseFloat((D.prospeccion.metrics.tasa_agenda||{}).value)/100,showup=parseFloat((D.prospeccion.metrics.show_up||{}).value)/100,cierre=parseFloat((D.ventas.metrics.tasa_cierre||{}).value)/100,aov=parseFloat((D.ventas.metrics.aov||{}).value),resell=parseFloat((D.profit.metrics.tasa_resell_p||{}).value)/100;const hasData=!isNaN(leads)||!isNaN(agenda)||!isNaN(cierre)||!isNaN(aov);const container=document.getElementById('rev-chain-wrap');if(!container)return;if(!hasData){container.innerHTML='<div class="rev-empty">📊 Llena las métricas de Marketing y Ventas para ver la proyección de ingresos automáticamente</div>';return;}const leadsVal=isNaN(leads)?null:Math.round(leads*factor),llamadas=(leadsVal!==null&&!isNaN(agenda))?Math.round(leadsVal*agenda):null,shows=(llamadas!==null&&!isNaN(showup))?Math.round(llamadas*showup):null,ventas=(shows!==null&&!isNaN(cierre))?Math.round(shows*cierre):(llamadas!==null&&!isNaN(cierre))?Math.round(llamadas*cierre):null,revenue=(ventas!==null&&!isNaN(aov))?ventas*aov:null,revResell=(revenue!==null&&!isNaN(resell))?revenue*(1+resell):null;const lbl=isWeekly?'/sem':'/mes',fmt=(n,sym='')=>n===null?'?':sym+n.toLocaleString('es-AR'),fmtP=n=>isNaN(n)?'?':Math.round(n*100)+'%';container.innerHTML=`<div class="rev-chain"><div class="rev-node" title="Leads"><div class="rev-node-val">${fmt(leadsVal)}</div><div class="rev-node-lbl">Leads${lbl}</div><div class="rev-node-src">📣 Marketing</div></div><div class="rev-op">×</div><div class="rev-rate">${fmtP(agenda)}<br><span style="font-size:9px">agenda</span></div><div class="rev-op">=</div><div class="rev-node"><div class="rev-node-val">${fmt(llamadas)}</div><div class="rev-node-lbl">Llamadas${lbl}</div><div class="rev-node-src">📅 Prospección</div></div><div class="rev-op">×</div><div class="rev-rate">${fmtP(showup)}<br><span style="font-size:9px">show up</span></div><div class="rev-op">×</div><div class="rev-rate">${fmtP(cierre)}<br><span style="font-size:9px">cierre</span></div><div class="rev-op">=</div><div class="rev-node highlight"><div class="rev-node-val">${fmt(ventas)}</div><div class="rev-node-lbl">Ventas${lbl}</div><div class="rev-node-src">🎯 Ventas</div></div><div class="rev-op">×</div><div class="rev-rate">$${isNaN(aov)?'?':aov.toLocaleString()}<br><span style="font-size:9px">AOV</span></div><div class="rev-op">=</div><div class="rev-node profit"><div class="rev-node-val">${fmt(revenue,'$')}</div><div class="rev-node-lbl">Ingresos${lbl}</div><div class="rev-node-src" style="color:var(--green)">💰 Resultado</div></div>${revResell!==null?`<div class="rev-op">+</div><div class="rev-rate">${fmtP(resell)}<br><span style="font-size:9px">resell</span></div><div class="rev-op">=</div><div class="rev-node profit"><div class="rev-node-val">${fmt(Math.round(revResell),'$')}</div><div class="rev-node-lbl">Con Resell${lbl}</div><div class="rev-node-src" style="color:var(--green)">⚡ +Profit</div></div>`:''}</div>`;}
+
+function setPeriod(p){period=p;document.getElementById('pt-mensual')?.classList.toggle('active',p==='mensual');document.getElementById('pt-semanal')?.classList.toggle('active',p==='semanal');const lbl=document.getElementById('rev-period-lbl');if(lbl)lbl.textContent=p==='semanal'?'— semanal':'— mensual';calcRevenue();}
+
+function renderMetrics(sid){const el=document.getElementById(`mg-${sid}`);if(!el)return;el.innerHTML=STAGES[sid].metrics.map(m=>{const d=D[sid].metrics[m.id]||{},p=pct(d.value,d.target,m.inv),h=HC[healthColor(p)];return`<div class="metric-card"><div class="mc-head"><div class="mc-name">${m.name}</div><span class="hbadge" id="hb-${sid}-${m.id}" style="background:${h.bg};color:${h.c}">${h.lbl}</span></div><div class="mc-inputs"><div class="mc-ig"><label>Actual (${m.unit})</label><input type="number" placeholder="${m.ph_v}" value="${d.value||''}" oninput="onMetricInput('${sid}','${m.id}','value',this.value)"></div><div class="mc-ig"><label>Objetivo (${m.unit})</label><input type="number" placeholder="${m.ph_t}" value="${d.target||''}" oninput="onMetricInput('${sid}','${m.id}','target',this.value)"></div></div><div class="progress-wrap"><div class="progress-bar" id="pb-${sid}-${m.id}" style="width:${p||0}%;background:${h.c}"></div></div><div class="progress-labels"><span>${d.value?d.value+' '+m.unit:'—'}</span><span id="pbl-${sid}-${m.id}">${p!==null?Math.round(p)+'%':'—'}</span></div></div>`;}).join('');}
+
+function onMetricInput(sid,mid,field,val){if(!D[sid].metrics[mid])D[sid].metrics[mid]={};D[sid].metrics[mid][field]=val;const m=STAGES[sid].metrics.find(x=>x.id===mid),d=D[sid].metrics[mid],p=pct(d.value,d.target,m.inv),h=HC[healthColor(p)];const badge=document.getElementById(`hb-${sid}-${mid}`);if(badge){badge.style.background=h.bg;badge.style.color=h.c;badge.textContent=h.lbl;}const bar=document.getElementById(`pb-${sid}-${mid}`);if(bar){bar.style.width=(p||0)+'%';bar.style.background=h.c;}const lbl=document.getElementById(`pbl-${sid}-${mid}`);if(lbl)lbl.textContent=p!==null?Math.round(p)+'%':'—';updateAll();autoSave();}
+
+const STATUS_OPTS=[{v:'pending',l:'⬜ Pendiente'},{v:'active',l:'✅ Activo'},{v:'optimizing',l:'🔄 Optimizando'},{v:'issue',l:'🔴 Problema'}];
+const STATUS_DOT={pending:'#94a3b8',active:'#16a34a',optimizing:'#f59e0b',issue:'#dc2626'};
+
+function renderProcesses(sid){const el=document.getElementById(`pl-${sid}`);if(!el)return;const color=STAGES[sid].color;let html='',lastGroup=null,n=0;STAGES[sid].processes.forEach(p=>{n++;if(p.group&&p.group!==lastGroup){html+=`<div class="subgroup"><div class="subgroup-line"></div><div class="subgroup-lbl">${p.group}</div><div class="subgroup-line"></div></div>`;lastGroup=p.group;}const d=D[sid].processes[p.id]||{},st=d.status||'pending',owner=d.owner||'',desc=d.description||'';const sopts=STATUS_OPTS.map(o=>`<option value="${o.v}"${st===o.v?' selected':''}>${o.l}</option>`).join('');html+=`<div class="proc-item"><div class="proc-head" id="ph-${sid}-${p.id}" onclick="toggleProc('${sid}','${p.id}')"><div class="proc-num" style="background:${color}">${n}</div><div class="proc-name">${p.name}</div><input class="proc-input" type="text" placeholder="Responsable..." value="${owner}" onclick="event.stopPropagation()" oninput="onProcInput('${sid}','${p.id}','owner',this.value)"><select class="proc-select" onclick="event.stopPropagation()" onchange="onProcInput('${sid}','${p.id}','status',this.value)">${sopts}</select></div><div class="proc-body" id="pb2-${sid}-${p.id}"><label>¿Cómo funciona este proceso en tu negocio?</label><textarea placeholder="Describe paso a paso cómo lo ejecutas..." oninput="onProcInput('${sid}','${p.id}','description',this.value)">${desc}</textarea></div></div>`;});el.innerHTML=html;}
+function toggleProc(sid,pid){document.getElementById(`pb2-${sid}-${pid}`)?.classList.toggle('open');}
+function onProcInput(sid,pid,field,val){if(!D[sid].processes[pid])D[sid].processes[pid]={};D[sid].processes[pid][field]=val;updateAll();autoSave();}
+
+function renderBottlenecks(sid){const el=document.getElementById(`bl-${sid}`);if(!el)return;el.innerHTML=STAGES[sid].bottlenecks.map(b=>{const d=D[sid].bottlenecks[b.id]||{},sev=d.severity||'unknown';return`<div class="bn-item"><div class="bn-head"><div class="bn-name">🚧 ${b.name}</div><select class="bn-select" onchange="onBnInput('${sid}','${b.id}','severity',this.value)"><option value="unknown" ${sev==='unknown'?'selected':''}>— No evaluado</option><option value="low" ${sev==='low'?'selected':''}>🟢 Bajo impacto</option><option value="medium" ${sev==='medium'?'selected':''}>🟡 Impacto medio</option><option value="high" ${sev==='high'?'selected':''}>🔴 Alto impacto</option></select></div><textarea class="bn-notes" placeholder="¿Qué está pasando? ¿Qué estás haciendo al respecto?" oninput="onBnInput('${sid}','${b.id}','notes',this.value)">${d.notes||''}</textarea></div>`;}).join('');}
+function onBnInput(sid,bid,field,val){if(!D[sid].bottlenecks[bid])D[sid].bottlenecks[bid]={};D[sid].bottlenecks[bid][field]=val;autoSave();}
+
+function updateAll(){STAGE_IDS.forEach(sid=>{const h=stageHealth(sid),dot=document.getElementById(`nh-${sid}`);if(dot)dot.className=`nav-health ${h!=='unknown'?'h-'+h:''}`;const bh=document.getElementById(`bh-${sid}`);if(bh){const icons={green:'✅',yellow:'⚠️',red:'🔴',unknown:'—'},labels={green:'En objetivo',yellow:'Revisar métricas',red:'Necesita atención',unknown:'Sin datos'};bh.className=`banner-health bh-${h}`;bh.textContent=`${icons[h]} ${labels[h]}`;}const bm=document.getElementById(`bm-${sid}`);if(bm)bm.innerHTML=STAGES[sid].metrics.map(m=>{const d=D[sid].metrics[m.id]||{},p=pct(d.value,d.target,m.inv),dot=HC[healthColor(p)].dot,val=d.value?d.value+m.unit:'—';return`<span class="bm-pill"><span class="bm-dot" style="background:${dot}"></span>${m.name}: ${val}</span>`;}).join('');});const comp=calcCompletion(),fillEl=document.getElementById('sb-fill'),pctEl=document.getElementById('sb-pct');if(fillEl)fillEl.style.width=comp.overall+'%';if(pctEl)pctEl.textContent=comp.overall+'%';const subMets=document.getElementById('sb-sub-mets'),subProcs=document.getElementById('sb-sub-procs');if(subMets)subMets.textContent=comp.mPct+'% métricas';if(subProcs)subProcs.textContent=comp.pPct+'% procesos';document.getElementById('kpi-comp').textContent=comp.overall+'%';document.getElementById('kpi-comp-bar').style.width=comp.overall+'%';document.getElementById('kpi-comp-sub').textContent=comp.overall>0?`${comp.filledMets}/${comp.totalMets} métricas · ${comp.descProcs}/${comp.totalProcs} procesos`:'Empieza llenando datos';document.getElementById('kpi-docs').textContent=comp.descProcs;document.getElementById('kpi-docs-sub').textContent=`de ${comp.totalProcs} procesos`;document.getElementById('kpi-mets').textContent=comp.filledMets;const healths=STAGE_IDS.map(s=>stageHealth(s)).filter(h=>h!=='unknown'),greens=healths.filter(h=>h==='green').length;document.getElementById('kpi-health').textContent=healths.length?Math.round(greens/healths.length*100)+'%':'—';document.getElementById('kpi-health-sub').textContent=healths.length?`${greens} de ${healths.length} etapas en verde`:'Sin datos aún';const guide=document.getElementById('onboarding-guide');if(guide)guide.style.display=comp.overall>10?'none':'block';const pfMap={marketing:{mid:'leads',unit:'#'},prospeccion:{mid:'tasa_agenda',unit:'%'},ventas:{mid:'tasa_cierre',unit:'%'},producto:{mid:'tasa_reembolsos',unit:'%'},profit:{mid:'tasa_resell_p',unit:'%'}};STAGE_IDS.forEach(sid=>{const{mid,unit}=pfMap[sid],d=D[sid].metrics[mid]||{};document.getElementById(`pf-v-${sid}`).textContent=d.value?d.value+unit:'—';const h=stageHealth(sid),badge=document.getElementById(`pf-b-${sid}`);if(badge){const c=HC[h];badge.style.background=c.bg;badge.style.color=c.c;badge.textContent=c.lbl;}});calcRevenue();}
+
+const TUB_META={marketing:{icon:'📣',grad:'linear-gradient(135deg,#7c3aed,#5b21b6)',mid:'leads',unit:'#',label:'Leads'},prospeccion:{icon:'📅',grad:'linear-gradient(135deg,#2563eb,#1d4ed8)',mid:'tasa_agenda',unit:'%',label:'Tasa Agenda'},ventas:{icon:'🎯',grad:'linear-gradient(135deg,#ea580c,#c2410c)',mid:'tasa_cierre',unit:'%',label:'Tasa Cierre'},producto:{icon:'⚡',grad:'linear-gradient(135deg,#059669,#047857)',mid:'tasa_reembolsos',unit:'%',label:'% Reembolsos'},profit:{icon:'💰',grad:'linear-gradient(135deg,#d97706,#b45309)',mid:'tasa_resell_p',unit:'%',label:'% Resell'}};
+const CONV_LABELS=['% Agenda','% Show Up × Cierre','% Retención','% Resell'];
+function getConvRate(i){const rates=[(D.prospeccion.metrics.tasa_agenda||{}).value,(()=>{const s=parseFloat((D.prospeccion.metrics.show_up||{}).value),c=parseFloat((D.ventas.metrics.tasa_cierre||{}).value);if(!isNaN(s)&&!isNaN(c))return Math.round(s*c/100)+'%';return null;})(),(()=>{const r=parseFloat((D.producto.metrics.tasa_reembolsos||{}).value);return !isNaN(r)?(100-r)+'%':null;})(),(D.profit.metrics.tasa_resell_p||{}).value];const val=rates[i];if(!val)return CONV_LABELS[i];return typeof val==='string'?val:val+'%';}
+
+function renderTuberia(){const el=document.getElementById('tub-flow');if(!el)return;const nav_el=document.getElementById('tub-stage-nav');if(nav_el)nav_el.innerHTML=STAGE_IDS.map((sid,i)=>{const st=STAGES[sid],h=stageHealth(sid),dot={green:'🟢',yellow:'🟡',red:'🔴',unknown:'⚪'}[h];return`<button class="tub-nav-pill" style="background:${st.color}" onclick="(function(){const s=document.getElementById('tub-scroll-el');if(s)s.scrollLeft=${i*262};document.querySelectorAll('.tub-nav-pill').forEach(p=>p.classList.remove('active'));this.classList.add('active')}).call(this)">${dot} ${st.label}</button>`;}).join('');const hint=document.getElementById('tub-scroll-hint');if(hint)hint.classList.remove('hidden');const wrap=document.getElementById('tub-scroll-wrap');if(wrap)wrap.classList.remove('no-overflow');let html='';STAGE_IDS.forEach((sid,i)=>{const meta=TUB_META[sid],stage=STAGES[sid],d=D[sid],mVal=(d.metrics[meta.mid]||{}).value,h=stageHealth(sid),hc=HC[h],delay=i*0.07,totalP=stage.processes.length,doneP=stage.processes.filter(p=>{const pd=d.processes[p.id]||{};return pd.status&&pd.status!=='pending';}).length,progPct=totalP?Math.round(doneP/totalP*100):0;html+=`<div class="tub-col tub-col-anim" style="animation-delay:${delay}s"><div class="tub-col-head" style="background:${meta.grad}" data-icon="${meta.icon}" onclick="nav('${sid}')"><div class="tub-col-tag">Etapa ${i+1}</div><div class="tub-col-name">${stage.label}</div><div class="tub-col-metric">${mVal?mVal+meta.unit:'—'}</div><div class="tub-col-mlabel">${meta.label}</div><div class="tub-col-hbadge">${hc.lbl}</div><div class="tub-col-prog"><div class="tub-col-prog-track"><div class="tub-col-prog-fill" style="width:${progPct}%"></div></div><span class="tub-col-prog-lbl">${doneP}/${totalP} procesos</span></div></div><div class="tub-col-body">`;let lastGrp=null;stage.processes.forEach(p=>{if(p.group&&p.group!==lastGrp){html+=`<div class="tub-group-lbl">${p.group}</div>`;lastGrp=p.group;}const pd=d.processes[p.id]||{},st2=pd.status||'pending',dot2=STATUS_DOT[st2]||'#94a3b8',owner=pd.owner?`👤 ${pd.owner}`:'';html+=`<div class="tub-node" style="border-left-color:${dot2}" onclick="openProcPanel('${sid}','${p.id}')"><div class="tub-node-row"><span class="tub-node-dot" style="background:${dot2}"></span><div class="tub-node-info"><div class="tub-node-name">${p.name}</div>${owner?`<div class="tub-node-owner">${owner}</div>`:''}</div></div></div>`;});const highBns=stage.bottlenecks.filter(b=>(d.bottlenecks[b.id]||{}).severity==='high');if(highBns.length){html+=`<div class="tub-group-lbl" style="color:#dc2626">🔴 Cuellos altos</div>`;highBns.forEach(b=>{html+=`<div class="tub-node" style="border-left-color:#dc2626;background:#fff5f5"><div class="tub-node-row"><span class="tub-node-dot" style="background:#dc2626"></span><div class="tub-node-info"><div class="tub-node-name" style="color:#dc2626;font-size:10.5px">${b.name}</div></div></div></div>`;});}html+=`</div></div>`;if(i<STAGE_IDS.length-1){const conv=getConvRate(i);html+=`<div class="tub-connector tub-col-anim" style="animation-delay:${delay+0.03}s"><div class="tub-conn-conv">${conv}</div><div class="tub-conn-line"></div><div class="tub-conn-arrow">›</div></div>`;}});el.innerHTML=html;}
+
+function openProcPanel(sid,pid){ppSid=sid;ppPid=pid;const stage=STAGES[sid],proc=stage.processes.find(p=>p.id===pid);if(!proc)return;const d=D[sid].processes[pid]||{},tag=document.getElementById('pp-stage-tag');tag.textContent=stage.label;tag.style.background=stage.color;document.getElementById('pp-proc-name').textContent=proc.name;document.getElementById('pp-owner').value=d.owner||'';document.getElementById('pp-status').value=d.status||'pending';document.getElementById('pp-desc').value=d.description||'';document.getElementById('proc-panel').classList.add('open');document.getElementById('proc-overlay').classList.add('open');}
+function closeProcPanel(){document.getElementById('proc-panel').classList.remove('open');document.getElementById('proc-overlay').classList.remove('open');}
+function saveProcPanel(){if(!ppSid||!ppPid)return;if(!D[ppSid].processes[ppPid])D[ppSid].processes[ppPid]={};D[ppSid].processes[ppPid].owner=document.getElementById('pp-owner').value;D[ppSid].processes[ppPid].status=document.getElementById('pp-status').value;D[ppSid].processes[ppPid].description=document.getElementById('pp-desc').value;updateAll();renderTuberia();autoSave();closeProcPanel();toast('✓ Proceso guardado');}
+
+function nav(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById(`view-${id}`)?.classList.add('active');(document.getElementById(`nb-${id}`)||document.querySelector(`.nav-item[onclick*="'${id}'"]`))?.classList.add('active');if(id==='tuberia')renderTuberia();closeSidebar();window.scrollTo(0,0);}
+function showTab(sid,tab){const view=document.getElementById(`view-${sid}`);view.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));view.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById(`tp-${sid}-${tab}`)?.classList.add('active');view.querySelectorAll('.tab-btn').forEach(b=>{if(b.getAttribute('onclick')?.includes(`'${tab}'`))b.classList.add('active');});}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sb-overlay').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sb-overlay').classList.remove('open');}
+
+function saveAll(){STAGE_IDS.forEach(sid=>{const el=document.getElementById(`notes-${sid}`);if(el)D[sid].notes=el.value;});localStorage.setItem('mm-espectro-v1',JSON.stringify(D));toast('✓ Guardado correctamente');}
+function autoSave(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{STAGE_IDS.forEach(sid=>{const el=document.getElementById(`notes-${sid}`);if(el)D[sid].notes=el.value;});localStorage.setItem('mm-espectro-v1',JSON.stringify(D));},900);}
+function load(){try{const raw=localStorage.getItem('mm-espectro-v1');if(raw){const p=JSON.parse(raw);STAGE_IDS.forEach(sid=>{if(!p[sid])return;if(p[sid].metrics)Object.assign(D[sid].metrics,p[sid].metrics);if(p[sid].processes)Object.assign(D[sid].processes,p[sid].processes);if(p[sid].bottlenecks)Object.assign(D[sid].bottlenecks,p[sid].bottlenecks);if(p[sid].notes!==undefined)D[sid].notes=p[sid].notes;});}}catch(e){}}
+function exportData(){saveAll();const blob=new Blob([JSON.stringify(D,null,2)],{type:'application/json'});const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`espectro-mm-${new Date().toISOString().slice(0,10)}.json`});a.click();URL.revokeObjectURL(a.href);toast('↓ Exportado');}
+function handleImport(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const p=JSON.parse(ev.target.result);STAGE_IDS.forEach(sid=>{if(p[sid])Object.assign(D[sid],p[sid]);});STAGE_IDS.forEach(sid=>{renderMetrics(sid);renderProcesses(sid);renderBottlenecks(sid);});STAGE_IDS.forEach(sid=>{const el=document.getElementById(`notes-${sid}`);if(el)el.value=D[sid].notes||'';});updateAll();toast('↑ Importado correctamente');}catch{alert('Archivo JSON inválido');}};r.readAsText(f);e.target.value='';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+function searchProcesses(q){const res=document.getElementById('tub-search-results');if(!res)return;const query=(q||'').trim().toLowerCase();if(!query){res.innerHTML='';res.classList.remove('open');return;}const matches=[];STAGE_IDS.forEach(sid=>{STAGES[sid].processes.forEach(p=>{if(p.name.toLowerCase().includes(query)){const pd=D[sid].processes[p.id]||{};matches.push({sid,pid:p.id,name:p.name,status:pd.status||'pending',owner:pd.owner||''});}});});if(!matches.length){res.innerHTML=`<div class="tub-sr-empty">Sin resultados para "${q}"</div>`;}else{res.innerHTML=matches.map(m=>{const st=STAGES[m.sid],statusLbl={pending:'⬜ Pendiente',active:'✅ Activo',optimizing:'🔄 Optimizando',issue:'🔴 Problema'}[m.status]||'';return`<div class="tub-sr-item" onmousedown="jumpToProcess('${m.sid}','${m.pid}')"><span class="tub-sr-stage" style="background:${st.color}">${st.label}</span><div><div class="tub-sr-name">${m.name}</div><div class="tub-sr-status">${statusLbl}${m.owner?' · 👤 '+m.owner:''}</div></div></div>`;}).join('');}res.classList.add('open');}
+function jumpToProcess(sid,pid){document.getElementById('tub-search').value='';hideSearchResults();nav('tuberia');setTimeout(()=>{const colIdx=STAGE_IDS.indexOf(sid),scroll=document.getElementById('tub-scroll-el');if(scroll)scroll.scrollLeft=colIdx*262;openProcPanel(sid,pid);},100);}
+function showSearchResults(){const q=document.getElementById('tub-search')?.value||'';if(q.trim())document.getElementById('tub-search-results')?.classList.add('open');}
+function hideSearchResults(){document.getElementById('tub-search-results')?.classList.remove('open');}
+function onTubScroll(){const el=document.getElementById('tub-scroll-el'),hint=document.getElementById('tub-scroll-hint');if(!el||!hint)return;if(el.scrollLeft>20)hint.classList.add('hidden');const wrap=document.getElementById('tub-scroll-wrap');const atEnd=el.scrollLeft+el.clientWidth>=el.scrollWidth-20;if(wrap)wrap.classList.toggle('no-overflow',atEnd);}
+
+function toggleDark(){const html=document.documentElement,isDark=html.getAttribute('data-theme')==='dark',next=isDark?'light':'dark';html.setAttribute('data-theme',next);localStorage.setItem('ec-theme',next);const btn=document.getElementById('dark-toggle');if(btn)btn.innerHTML=next==='dark'?'<span>☀️</span> Modo claro':'<span>🌙</span> Modo oscuro';}
+function initTheme(){const t=localStorage.getItem('ec-theme')||'dark';document.documentElement.setAttribute('data-theme',t);const btn=document.getElementById('dark-toggle');if(btn)btn.innerHTML=t==='dark'?'<span>☀️</span> Modo claro':'<span>🌙</span> Modo oscuro';}
+
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();saveAll();}if(e.key==='Escape'){closeProcPanel();closeSidebar();}});
+
+(function init(){initTheme();load();STAGE_IDS.forEach(sid=>{renderMetrics(sid);renderProcesses(sid);renderBottlenecks(sid);const el=document.getElementById(`notes-${sid}`);if(el&&D[sid].notes)el.value=D[sid].notes;});updateAll();})();
+</script>
+</body>
+</html>
